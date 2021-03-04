@@ -16,7 +16,7 @@ stages:
           - script: echo hello
           - task: Bash@3
             inputs:
-              filePath: $(Build.SourcesDirectory)\scripts\ss.sh
+              filePath: $(Build.SourcesDirectory)/scripts/ss.sh
 
     
 
