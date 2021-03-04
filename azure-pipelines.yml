@@ -20,8 +20,7 @@ stages:
         steps:
           - script: echo $(Agent.System.Capabilities) 
           - script: echo $(Agent.Name)
-          - bash: 
-            workingDirectory: $(Build.Repository.LocalPath)\scripts\ss.sh
+          - bash: echo hellooooo
     
 
 
