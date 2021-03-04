@@ -14,7 +14,9 @@ stages:
       - job: Write
         steps:
           - script: echo hello
-          - bash: $(PWD)/scripts/ss.sh
+          - task: Bash@3
+            inputs:
+              filePath: $(Build.SourcesDirectory)\scripts.sh
 
     
 
