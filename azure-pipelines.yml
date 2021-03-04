@@ -6,18 +6,20 @@
 trigger:
 - master
 
-pool: Default
+pool:
+  name: Default
+  demands: 
+    - MSBuild
+    - Nuget
+
 
 stages:
   - stage: Akram2s
     jobs:
       - job: Write
         steps:
-          - script: echo hello
+          - script: echo $(Agent.Name)
           - bash: $(Build.SourcesDirectory)/scripts/ss.sh
-          # - task: Bash@3
-          #   inputs:
-          #     filePath: $(Build.SourcesDirectory)/scripts/ss.sh
 
     
 
