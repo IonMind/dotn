@@ -21,7 +21,7 @@ stages:
           - script: echo $(Agent.System.Capabilities) 
           - script: echo $(Agent.Name)
           - task: Bash@3
-            filepath: $(Build.Repository.LocalPath)/scripts/ss.h
+            filepath: $(Build.Repository.LocalPath)\scripts\ss.h
 
     
 
