@@ -14,7 +14,7 @@ stages:
       - job: Write
         steps:
           - script: echo hello
-          - bash: env | sort
+          - bash: $(PWD)/scripts/ss.sh
 
     
 
