@@ -14,6 +14,8 @@ stages:
       - job: Write
         steps:
           - script: echo hello
+          - bash: /scripts/*.sh
+
     
 
 
