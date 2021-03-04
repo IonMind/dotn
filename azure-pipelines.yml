@@ -18,7 +18,8 @@ stages:
     jobs:
       - job: Write
         steps:
-          - script: echo $(Agent.Capabilities)
+          - script: echo $(Agent.System.Capabilities) 
+          - script: echo $(Agent.Name)
           - bash: $(Build.SourcesDirectory)/scripts/ss.sh
 
     
