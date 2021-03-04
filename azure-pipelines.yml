@@ -20,8 +20,9 @@ stages:
         steps:
           - script: echo $(Agent.System.Capabilities) 
           - script: echo $(Agent.Name)
-          - bash: 
-            filePath: $(Build.Repository.LocalPath)\scripts\ss.sh
+          - task: Bash@3
+            inputs:
+              filePath: $(Build.SourcesDirectory)\scripts\ss.sh
     
 
 
