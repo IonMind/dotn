@@ -24,15 +24,14 @@ stages:
             inputs:
               filePath: $(Build.SourcesDirectory)\scripts\ss.sh
 
-  - stage: build
+  - stage: Build
     jobs:
-      - job: build
+      - job: Restore_NUG_PCKS
         steps:
-          - task: MSBuild@1
+          - task: NuGetCommand@2
             inputs:
-              solution: '**/*.sln'
-              msbuildVersion: '15.0'
-              msbuildArchitecture: 'x64'
-              restoreNugetPackages: true     
+              command: 'restore'
+              feedsToUse: 'config'
+              nugetConfigPath: 'nuget.config'   
 
 
