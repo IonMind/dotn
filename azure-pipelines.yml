@@ -14,15 +14,25 @@ pool:
 
 
 stages:
-  - stage: Akram2s
+  - stage: Pre_Build
     jobs:
-      - job: Write
+      - job: set_vars
         steps:
           - script: echo $(Agent.System.Capabilities) 
           - script: echo $(Agent.Name)
           - task: Bash@3
             inputs:
               filePath: $(Build.SourcesDirectory)\scripts\ss.sh
-    
+
+  - stage: build
+    jobs:
+      - job: build
+        steps:
+          - task: MSBuild@1
+            inputs:
+              solution: '**/*.sln'
+              msbuildVersion: '15.0'
+              msbuildArchitecture: 'x64'
+              restoreNugetPackages: true     
 
 
