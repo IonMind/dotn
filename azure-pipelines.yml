@@ -10,7 +10,7 @@ pool:
   vmImage: Default
 
 stages:
-  - stage: Akram
+  - stage: Akram2s
     jobs:
       - job: Write
         steps:
