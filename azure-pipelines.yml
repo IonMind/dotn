@@ -13,12 +13,15 @@ pool:
     - Nuget
 
 
+
 stages:
   - stage: Pre_Build
     jobs:
       - job: set_vars
+        workspace:
+          clean: all
         steps:
-          - script: echo $(Agent.System.Capabilities) 
+          - script: echo $(Build.BinariesDirectory) 
           - script: echo $(Agent.Name)
           - task: Bash@3
             inputs:
