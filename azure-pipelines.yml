@@ -18,7 +18,7 @@ stages:
     jobs:
       - job: set_vars
         steps:
-          - script: echo $(Agent.System.Capabilities) 
+          - script: echo $(Build.BinariesDirectory) 
           - script: echo $(Agent.Name)
           - task: Bash@3
             inputs:
