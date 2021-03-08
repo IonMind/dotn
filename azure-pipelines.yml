@@ -28,6 +28,7 @@ stages:
     jobs:
       - job: Restore_NUG_PCKS
         steps:
+          - checkout: none
           - task: NuGetCommand@2
             inputs:
               command: 'restore'
