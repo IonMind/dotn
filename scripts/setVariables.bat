@@ -1,6 +1,6 @@
 @echo off
 echo Hello World from %AGENT_NAME%
-set PULL_PLAN_PATH_WIN=$(Build.SourcesDirectory)
+set PULL_PLAN_PATH_WIN=${{Build.SourcesDirectory}}
 set PULL_PLAN_PATH_WIN=%PULL_PLAN_PATH_WIN:\=\\%
 set PRODUCTVERSION=$(MajorVersion).$(MinorVersion).0.$(Build.BuildNumber)
 echo %PULL_PLAN_PATH_WIN%
