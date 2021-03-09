@@ -1,2 +1,2 @@
 rm -rf Source;
-echo $repo_to_clone
+echo $(repo_to_clone)
