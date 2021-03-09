@@ -41,7 +41,7 @@ stages:
           - task: Bash@3
             inputs:
               filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
-          - bash: echo $(SA_PATH)
+          - bash: echo $(ss)
   # - stage: Pre_Build
   #   jobs:
   #     - job: set_vars
