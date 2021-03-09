@@ -24,7 +24,7 @@ pool:
 stages:
   - stage: SC Checkout
     jobs:
-      - job: Clone form Local
+      - job: Clone_form_Local
         steps:
           - task: Bash@3
             inputs:
