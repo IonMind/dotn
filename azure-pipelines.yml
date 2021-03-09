@@ -78,6 +78,7 @@ stages:
     jobs:
       - job: Build_Smart_Assembly_project
         steps:
+          - checkout: none
           - task: CmdLine@2
             inputs:
               workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
