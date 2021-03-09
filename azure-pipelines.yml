@@ -45,6 +45,8 @@ stages:
               filePath: echo $repo_to_clone #$(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
             env:
               repo_to_clone: $(Parent_local_repo)
+        workspace:
+          clean: outputs
   # - stage: Pre_Build
   #   jobs:
   #     - job: set_vars
