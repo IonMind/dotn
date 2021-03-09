@@ -12,10 +12,12 @@ pool:
     - MSBuild
     - Nuget
 
-# resources:
-#   repositories:
-#     - repository: local repo
-#       type: git
+resources:
+  repositories:
+    - repository: local repo
+      type: git
+      ref: refs/heads/master
+      endpoint: C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360
 
 
 
