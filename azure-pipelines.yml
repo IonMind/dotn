@@ -79,7 +79,12 @@ stages:
       - job: Build_Smart_Assembly_project
         steps:
           - checkout: none
-          - task: CmdLine@2
-            inputs:
-              workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
-              script: $(ss) SalesCloser360.saproj 
+          - script: $(ss) SalesCloser360.saproj 
+            workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
+            
+          # - task: CmdLine@2
+          #   inputs:
+          #     workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
+          #     script: $(ss) SalesCloser360.saproj 
+          #     env:
+          #       pathh: $(ss)
