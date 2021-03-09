@@ -43,7 +43,7 @@ stages:
           - task: Bash@3
             inputs:
               targetType: inline
-              script: echo $(repo_to_clone) #$(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc.
+              script: echo $repo_to_clone
             env:
               repo_to_clone: $(Parent_local_repo)
         workspace:
