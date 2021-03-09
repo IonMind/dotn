@@ -31,6 +31,7 @@ variables:
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
   Product_version: 1.0.0.390
   SCLIB_PATH: $(REPO_ROOT_VAR)\Libraries
+  Smsrt_Assembly_Path: 'C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com'
 
 stages:
   - stage: SC_Checkout
@@ -52,24 +53,32 @@ stages:
   #           inputs:
   #             filePath: $(Build.SourcesDirectory)\scripts\setVariables.sh
 
-  - stage: Compile_SC360
-    dependsOn: SC_Checkout
-    jobs:
-      - job: Restore_Packages_and_Build
-        steps:
-          - checkout: none
-          - task: MSBuild@1
-            inputs:
-              solution: $(Source_code_path)/*.sln
-              msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
+  # - stage: Compile_SC360
+  #   dependsOn: SC_Checkout
+  #   jobs:
+  #     - job: Restore_Packages_and_Build
+  #       steps:
+  #         - checkout: none
+  #         - task: MSBuild@1
+  #           inputs:
+  #             solution: $(Source_code_path)/*.sln
+  #             msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
 
-      - job: Update_Version
-        dependsOn: Restore_Packages_and_Build
+  #     - job: Update_Version
+  #       dependsOn: Restore_Packages_and_Build
+  #       steps:
+  #         - checkout: none
+  #         - task: CmdLine@2
+  #           inputs:
+  #             workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+  #             script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
+
+  - stage: Run_Smart_Assembly
+    dependsOn: Compile_SC360
+    jobs:
+      - job: Build_Smart_Assembly_project
         steps:
-          - checkout: none
           - task: CmdLine@2
             inputs:
-              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-              script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
-
-
+              workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
+              script: $(Smsrt_Assembly_Path) SalesCloser360.saproj
