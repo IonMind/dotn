@@ -75,8 +75,22 @@ stages:
   - stage: Run_Smart_Assembly
     dependsOn: Compile_SC360
     jobs:
+      # - job: Build_Smart_Assembly_project
+      #   steps:
+      #     - checkout: none
+      #     - bash: cmd.exe /k $(Smart_Assembly_Path_dir) SalesCloser360.saproj
+      #       workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
+      # - job: Build_Smart_Assembly_project
+      #   steps:
+      #     - checkout: none
+      #     - task: CmdLine@2
+      #       inputs:
+      #         script: $(Smart_Assembly_Path_dir) SalesCloser360.saproj
+      #         workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
       - job: Build_Smart_Assembly_project
         steps:
           - checkout: none
-          - bash: cmd.exe /k $(Smart_Assembly_Path_dir) SalesCloser360.saproj
-            workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
+          - task: CmdLine@2
+            inputs:
+              script: \"C:\Program Files\\Red Gate\\SmartAssembly 7\\SmartAssembly.com\" SalesCloser360.saproj
+              workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
