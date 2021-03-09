@@ -31,6 +31,7 @@ variables:
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
   Product_version: 1.0.0.390
   SCLIB_PATH: $(REPO_ROOT_VAR)\Libraries
+  ss: C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com
 
 stages:
   - stage: SC_Checkout
@@ -81,4 +82,4 @@ stages:
           - task: CmdLine@2
             inputs:
               workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
-              script: "C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com" SalesCloser360.saproj
+              script: $(ss) SalesCloser360.saproj
