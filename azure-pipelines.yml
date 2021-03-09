@@ -20,29 +20,33 @@ pool:
 #       endpoint: C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360
 
 
+variables:
+  ExeNamePrefix: Bamboo_
+  MajorVersion: 1
+  MinorVersion: 1
+  NAS: \\10.91.1.12
+  NAS_Path: 'N:'
+  TargetPath: $(NAS)\Data\Builds\Sales Closer\
 
 stages:
-  - stage: SC_Checkout
-    jobs:
-      - job: Clone_form_Local
-        steps:
-          - task: Bash@3
-            inputs:
-              filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh
-        
-
-
-  # - stage: Pre_Build
+  # - stage: SC_Checkout
   #   jobs:
-  #     - job: set_vars
+  #     - job: Clone_form_Local
   #       steps:
-  #         - checkout: none
-  #         - script: 
-  #         - script: echo $(Build.BinariesDirectory) 
-  #         - script: echo $(Agent.Name)
   #         - task: Bash@3
   #           inputs:
-  #             filePath: $(Build.SourcesDirectory)\scripts\ss.sh
+  #             filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
+        
+  - stage: Pre_Build
+    jobs:
+      - job: set_vars
+        steps:
+          - checkout: none
+          - script: echo $(Build.BinariesDirectory) 
+          - script: echo $(Agent.Name)
+          - task: BatchScript@1
+            inputs:
+              filename: $(Build.SourcesDirectory)\scripts\setVariables.bat
 
   # - stage: Build
   #   jobs:
