@@ -10,16 +10,3 @@ set DateTime=%ldt:~4,2%/%ldt:~6,2%/%ldt:~0,4% %ldt:~8,2%:%ldt:~10,2%:%ldt:~12,2%
 echo %DateTime%
 set ExeName=$(ExeNamePrefix)SalesCloser360 %TodayDate%.exe
 
-set targetPath="$(NAS_Path)\\Builds\\Sales Closer\\"
-set SC_REPO_PATH=%PULL_PLAN_PATH_WIN%\\Source\\Sales_Closer_360
-
-
-( 
-    @echo REPO_ROOT_VAR=%PULL_PLAN_PATH_WIN%
-    @echo PRODUCTVERSION=%PRODUCTVERSION%
-    @echo LIB_SUB_ROOT=Source\\Libraries
-    @echo SCLIB_PATH=%SC_REPO_PATH%\\Libraries
-    @echo SC_REPO_PATH=%SC_REPO_PATH%
-    @echo ExeName=%ExeName%
-    @echo targetPath=%targetPath%
-)> "$(Build.SourcesDirectory)\repovar.properties"
