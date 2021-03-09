@@ -42,8 +42,8 @@ stages:
       - job: set_vars
         steps:
           # - checkout: none
-          - script: echo $(Build.BinariesDirectory) 
-          - script: echo $(Agent.Name)
+          # - script: echo $(Build.BinariesDirectory) 
+          # - script: echo $(Agent.Name)
           - task: BatchScript@1
             inputs:
               filename: $(Build.SourcesDirectory)\scripts\setVariables.bat
