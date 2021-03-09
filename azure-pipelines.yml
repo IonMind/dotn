@@ -19,7 +19,6 @@ pool:
 #       ref: refs/heads/master
 #       endpoint: C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360
 
-#$(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
 
 variables:
   ExeNamePrefix: Bamboo_
@@ -27,7 +26,6 @@ variables:
   MinorVersion: 1
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
-  Parent_local_repo: \"/mnt/c/Users/abhishek.chaudhary/Documents/All Repos/salescloser360\"
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
   REPO_ROOT_VAR: $(Build.SourcesDirectory)\Source\Sales_Closer_360
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
@@ -42,14 +40,7 @@ stages:
         steps:
           - task: Bash@3
             inputs:
-              targetType: inline
-              script: echo $repo
-            env:
-              repo: avv
-        workspace:
-          clean: outputs
-
-
+              filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
   # - stage: Pre_Build
   #   jobs:
   #     - job: set_vars
@@ -61,31 +52,31 @@ stages:
   #           inputs:
   #             filePath: $(Build.SourcesDirectory)\scripts\setVariables.sh
 
-  # - stage: Compile_SC360
-  #   dependsOn: SC_Checkout
-  #   jobs:
-  #     - job: Restore_Packages_and_Build
-  #       steps:
-  #         - checkout: none
-  #         - task: MSBuild@1
-  #           inputs:
-  #             solution: $(Source_code_path)/*.sln
-  #             msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
+  - stage: Compile_SC360
+    dependsOn: SC_Checkout
+    jobs:
+      - job: Restore_Packages_and_Build
+        steps:
+          - checkout: none
+          - task: MSBuild@1
+            inputs:
+              solution: $(Source_code_path)/*.sln
+              msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
 
-  #     - job: Update_Version
-  #       dependsOn: Restore_Packages_and_Build
-  #       steps:
-  #         - checkout: none
-  #         - task: CmdLine@2
-  #           inputs:
-  #             workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-  #             script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
+      - job: Update_Version
+        dependsOn: Restore_Packages_and_Build
+        steps:
+          - checkout: none
+          - task: CmdLine@2
+            inputs:
+              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+              script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
 
-  # - stage: Run_Smart_Assembly
-  #   dependsOn: Compile_SC360
-  #   jobs:
-  #     - job: Build_Smart_Assembly_project
-  #       steps:
-  #         - checkout: none
-  #         - bash: cmd.exe /k $(Smart_Assembly_Path_dir) SalesCloser360.saproj
-  #           workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
+  - stage: Run_Smart_Assembly
+    dependsOn: Compile_SC360
+    jobs:
+      - job: Build_Smart_Assembly_project
+        steps:
+          - checkout: none
+          - bash: cmd.exe /k $(Smart_Assembly_Path_dir) SalesCloser360.saproj
+            workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
