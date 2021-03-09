@@ -1,3 +1,0 @@
-echo 'working'
-
-env | sort

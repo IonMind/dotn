@@ -12,36 +12,47 @@ pool:
     - MSBuild
     - Nuget
 
-resources:
-  repositories:
-    - repository: local repo
-      type: git
-      ref: refs/heads/master
-      endpoint: C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360
+# resources:
+#   repositories:
+#     - repository: local repo
+#       type: git
+#       ref: refs/heads/master
+#       endpoint: C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360
 
 
 
 stages:
-  - stage: Pre_Build
+  - stage: SC Checkout
     jobs:
-      - job: set_vars
+      - job: Clone form Local
         steps:
-          - checkout: none
-          - script: echo $(Build.BinariesDirectory) 
-          - script: echo $(Agent.Name)
           - task: Bash@3
             inputs:
-              filePath: $(Build.SourcesDirectory)\scripts\ss.sh
+              filePath: $(Build.SourcesDirectory)\scripts\cone_repo.sh
+        
 
-  - stage: Build
-    jobs:
-      - job: Restore_NUG_PCKS
-        steps:
-          - checkout: none
-          - task: NuGetCommand@2
-            inputs:
-              command: 'restore'
-              feedsToUse: 'config'
-              nugetConfigPath: 'nuget.config'   
+
+  # - stage: Pre_Build
+  #   jobs:
+  #     - job: set_vars
+  #       steps:
+  #         - checkout: none
+  #         - script: 
+  #         - script: echo $(Build.BinariesDirectory) 
+  #         - script: echo $(Agent.Name)
+  #         - task: Bash@3
+  #           inputs:
+  #             filePath: $(Build.SourcesDirectory)\scripts\ss.sh
+
+  # - stage: Build
+  #   jobs:
+  #     - job: Restore_NUG_PCKS
+  #       steps:
+  #         - checkout: none
+  #         - task: NuGetCommand@2
+  #           inputs:
+  #             command: 'restore'
+  #             feedsToUse: 'config'
+  #             nugetConfigPath: 'nuget.config'   
 
 
