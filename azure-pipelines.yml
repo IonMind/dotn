@@ -53,6 +53,7 @@ stages:
   #             filePath: $(Build.SourcesDirectory)\scripts\setVariables.sh
 
   - stage: Compile_SC360
+    dependsOn: SC_Checkout
     jobs:
       - job: Restore_Packages_and_Build
         steps:
@@ -62,6 +63,7 @@ stages:
               solution: $(Source_code_path)/*.sln
               msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
       - job: Update_Version
+        dependsOn: Restore_Packages_and_Build
         steps:
           - checkout: none
           - task: CmdLine@2
