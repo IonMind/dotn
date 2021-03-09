@@ -1,2 +1,2 @@
 rm -rf Source;
-echo ${{ variables.Parent_local_repo }} 
+echo $repo_to_clone
