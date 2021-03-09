@@ -74,7 +74,7 @@ stages:
   #             script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
 
   - stage: Run_Smart_Assembly
-    dependsOn: Compile_SC360
+    dependsOn: SC_Checkout
     jobs:
       - job: Build_Smart_Assembly_project
         steps:
