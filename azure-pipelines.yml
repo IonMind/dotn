@@ -82,4 +82,4 @@ stages:
           - task: CmdLine@2
             inputs:
               workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
-              script: /"$(ss)/" SalesCloser360.saproj
+              script: $(ss) SalesCloser360.saproj
