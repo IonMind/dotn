@@ -22,7 +22,7 @@ pool:
 
 
 stages:
-  - stage: SC Checkout
+  - stage: SC_Checkout
     jobs:
       - job: Clone_form_Local
         steps:
