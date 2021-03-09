@@ -28,7 +28,7 @@ stages:
         steps:
           - task: Bash@3
             inputs:
-              filePath: $(Build.SourcesDirectory)\scripts\cone_repo.sh
+              filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh
         
 
 
