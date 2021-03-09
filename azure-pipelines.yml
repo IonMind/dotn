@@ -41,7 +41,7 @@ stages:
     jobs:
       - job: set_vars
         steps:
-          - checkout: none
+          # - checkout: none
           - script: echo $(Build.BinariesDirectory) 
           - script: echo $(Agent.Name)
           - task: BatchScript@1
