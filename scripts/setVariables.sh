@@ -1,0 +1,1 @@
+PULL_PLAN_PATH_WIN=${bamboo.build.working.directory}

@@ -27,36 +27,45 @@ variables:
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
+  REPO_ROOT_VAR: $(Build.SourcesDirectory)\scripts\Source\Sales_Closer_360
+  Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
+  Product_version: 1.0.0.390
+
 
 stages:
-  # - stage: SC_Checkout
+  - stage: SC_Checkout
+    jobs:
+      - job: Clone_form_Local
+        steps:
+          - task: Bash@3
+            inputs:
+              filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
+        
+  # - stage: Pre_Build
   #   jobs:
-  #     - job: Clone_form_Local
+  #     - job: set_vars
   #       steps:
+  #         # - checkout: none
+  #         # - script: echo $(Build.BinariesDirectory) 
+  #         # - script: echo $(Agent.Name)
   #         - task: Bash@3
   #           inputs:
-  #             filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
-        
-  - stage: Pre_Build
-    jobs:
-      - job: set_vars
-        steps:
-          # - checkout: none
-          # - script: echo $(Build.BinariesDirectory) 
-          # - script: echo $(Agent.Name)
-          - task: BatchScript@1
-            inputs:
-              filename: $(Build.SourcesDirectory)\scripts\setVariables.bat
+  #             filePath: $(Build.SourcesDirectory)\scripts\setVariables.sh
 
-  # - stage: Build
-  #   jobs:
-  #     - job: Restore_NUG_PCKS
-  #       steps:
-  #         - checkout: none
-  #         - task: NuGetCommand@2
-  #           inputs:
-  #             command: 'restore'
-  #             feedsToUse: 'config'
-  #             nugetConfigPath: 'nuget.config'   
+  - stage: Compile_SC360
+    jobs:
+      - job: Restore_Packages_and_Build
+        steps:
+          - checkout: none
+          - task: MSBuild@1
+            inputs:
+              solution: $(Source_code_path)/*.sln
+              msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
+      - job: Update_Version
+        steps:
+          - task: CmdLine@2
+            inputs:
+              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+              script: SalesCloser360.exe $(Product_version) /pv $(Product_version)
 
 
