@@ -27,7 +27,7 @@ variables:
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
-  REPO_ROOT_VAR: $(Build.SourcesDirectory)\scripts\Source\Sales_Closer_360
+  REPO_ROOT_VAR: $(Build.SourcesDirectory)\Source\Sales_Closer_360
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
   Product_version: 1.0.0.390
 
@@ -66,6 +66,6 @@ stages:
           - task: CmdLine@2
             inputs:
               workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-              script: SalesCloser360.exe $(Product_version) /pv $(Product_version)
+              script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
 
 
