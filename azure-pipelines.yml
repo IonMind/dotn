@@ -92,5 +92,5 @@ stages:
           - checkout: none
           - task: CmdLine@2
             inputs:
-              script: /"C:\Program Files/\Red Gate/\SmartAssembly 7/\SmartAssembly.com/" SalesCloser360.saproj
+              script: /"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com/" SalesCloser360.saproj
               workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
