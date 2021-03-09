@@ -52,20 +52,20 @@ stages:
   #           inputs:
   #             filePath: $(Build.SourcesDirectory)\scripts\setVariables.sh
 
-  - stage: Compile_SC360
-    jobs:
-      - job: Restore_Packages_and_Build
-        steps:
-          - checkout: none
-          - task: MSBuild@1
-            inputs:
-              solution: $(Source_code_path)/*.sln
-              msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
-      - job: Update_Version
-        steps:
-          - task: CmdLine@2
-            inputs:
-              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-              script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
+  # - stage: Compile_SC360
+  #   jobs:
+  #     - job: Restore_Packages_and_Build
+  #       steps:
+  #         - checkout: none
+  #         - task: MSBuild@1
+  #           inputs:
+  #             solution: $(Source_code_path)/*.sln
+  #             msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
+  #     - job: Update_Version
+  #       steps:
+  #         - task: CmdLine@2
+  #           inputs:
+  #             workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+  #             script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
 
 
