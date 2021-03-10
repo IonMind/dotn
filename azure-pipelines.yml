@@ -45,7 +45,7 @@ stages:
               targetType: filePath
               filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
               # script: echo $EXENAMEPREFIX
-            env:
+            # env:
               # EXENAMEPREFIX: $(exenameprefix)
 
 # stages:
