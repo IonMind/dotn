@@ -7,10 +7,10 @@ trigger:
 - master
 
 pool:
-  name: Default
-  demands: 
-    - MSBuild
-    - Nuget
+  name: Azure Pipelines
+  # demands: 
+  #   - MSBuild
+  #   - Nuget
 
 # resources:
 #   repositories:
