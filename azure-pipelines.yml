@@ -79,7 +79,7 @@ stages:
             inputs:
               script: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com" SalesCloser360.saproj'
               workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
-      - job: Copy_Config_file          #SmartAssmbly from cmd
+      - job: Copy_Config_file          #after S.A. copy config.exe
         dependsOn: Build_Smart_Assembly_project
         steps:
           - checkout: none
@@ -93,6 +93,7 @@ stages:
     jobs:
       - job: Run_Signtool_and_sign_SC_executable
         steps:
+          - checkout: none
           - task: PowerShell@2
             inputs:
               filePath: $(Scripts_Path)\sign.ps1
