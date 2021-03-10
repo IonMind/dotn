@@ -33,14 +33,14 @@ variables:
   SCLIB_PATH: $(REPO_ROOT_VAR)\Libraries
   Smart_Assembly_Path_dir: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com"'
 
-  stages:
-    - stage: try
-      jobs:
-        - job: inslin_sh
-          steps:
-            - task: Bash@3
-              inputs:
-                filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
+stages:
+  - stage: try
+    jobs:
+      - job: inslin_sh
+        steps:
+          - task: Bash@3
+            inputs:
+              filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
 
 # stages:
 #   - stage: SC_Checkout
