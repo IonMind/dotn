@@ -98,3 +98,14 @@ stages:
             inputs:
               filePath: $(Scripts_Path)\sign.ps1
               arguments: $(SCLIB_PATH) $(REPO_ROOT_VAR)
+
+  - stage: Build_Installer      #current license na on r3
+    dependsOn: Sign_EXE
+    jobs:
+      - job: Generate_MsBuild_warning_Table
+        steps:
+          - checkout: none
+          - task: PowerShell@2
+            inputs:
+              filePath: $(Scripts_Path)\generate_msbuild_warning_table
+              arguments: $(Build.SourcesDirectory)
