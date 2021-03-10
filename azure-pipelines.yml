@@ -8,11 +8,11 @@ trigger:
 
 pool:
   name: Default
-  # vmImage: vs2017-win2016
+
   
-  # demands: 
-  #   - MSBuild
-  #   - Nuget
+  demands: 
+    - MSBuild
+    - Nuget
 
 # resources:
 #   repositories:
@@ -29,21 +29,24 @@ variables:
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
+  Scripts_Path: $(Build.SourcesDirectory)\Scripts
   REPO_ROOT_VAR: $(Build.SourcesDirectory)\Source\Sales_Closer_360
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
   Product_version: 1.0.0.390
   SCLIB_PATH: $(REPO_ROOT_VAR)\Libraries
   Smart_Assembly_Path_dir: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com"'
-  Bash: '""'
+  Bash: '"C:\Program Files\Git\bin\bash.exe" --noprofile --norc'
+
+
 stages:
   - stage: try
     jobs:
       - job: inslin_sh
         steps:
-          - task: Bash@3
-            inputs:
-              targetType: filePath
-              filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
+          - task: CmdLine@2
+            inputs: 
+              script: '$(Bash) $(Scripts_Path)\clone_repo.sh' 
+
 
 
 # stages:
