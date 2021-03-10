@@ -8,8 +8,6 @@ trigger:
 
 pool:
   name: Default
-
-  
   demands: 
     - MSBuild
     - Nuget
@@ -29,34 +27,20 @@ variables:
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
-  Scripts_Path: $(Build.SourcesDirectory)\Scripts
   REPO_ROOT_VAR: $(Build.SourcesDirectory)\Source\Sales_Closer_360
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
   Product_version: 1.0.0.390
   SCLIB_PATH: $(REPO_ROOT_VAR)\Libraries
-  Smart_Assembly_Path_dir: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com"'
-  Bash: '"C:\Program Files\Git\bin\bash.exe" --noprofile --norc'
-
+  Smart_Assembly_Path_dir: \"C:\\Program Files\\Red Gate\\SmartAssembly 7\\SmartAssembly.com\"
 
 stages:
-  - stage: try
+  - stage: SC_Checkout
     jobs:
-      - job: inslin_sh
+      - job: Clone_form_Local
         steps:
-          - task: CmdLine@2
-            inputs: 
-              script: '$(Bash) $(Scripts_Path)\clone_repo.sh' 
-
-
-
-# stages:
-#   - stage: SC_Checkout
-#     jobs:
-#       - job: Clone_form_Local
-#         steps:
-#           - task: Bash@3
-#             inputs:
-#               filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
+          - task: Bash@3
+            inputs:
+              filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
   # - stage: Pre_Build
   #   jobs:
   #     - job: set_vars
@@ -68,45 +52,45 @@ stages:
   #           inputs:
   #             filePath: $(Build.SourcesDirectory)\scripts\setVariables.sh
 
-  # - stage: Compile_SC360
-  #   dependsOn: SC_Checkout
-  #   jobs:
-  #     - job: Restore_Packages_and_Build
-  #       steps:
-  #         - checkout: none
-  #         - task: MSBuild@1
-  #           inputs:
-  #             solution: $(Source_code_path)/*.sln
-  #             msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
+  - stage: Compile_SC360
+    dependsOn: SC_Checkout
+    jobs:
+      - job: Restore_Packages_and_Build
+        steps:
+          - checkout: none
+          - task: MSBuild@1
+            inputs:
+              solution: $(Source_code_path)/*.sln
+              msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
 
-  #     - job: Update_Version
-  #       dependsOn: Restore_Packages_and_Build
-  #       steps:
-  #         - checkout: none
-  #         - task: CmdLine@2
-  #           inputs:
-  #             workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-  #             script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
+      - job: Update_Version
+        dependsOn: Restore_Packages_and_Build
+        steps:
+          - checkout: none
+          - task: CmdLine@2
+            inputs:
+              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+              script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
 
-  # - stage: Run_Smart_Assembly
-  #   dependsOn: Compile_SC360
-  #   jobs:
-  #     # - job: Build_Smart_Assembly_project
-  #     #   steps:
-  #     #     - checkout: none
-  #     #     - bash: cmd.exe /k $(Smart_Assembly_Path_dir) SalesCloser360.saproj
-  #     #       workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
-  #     # - job: Build_Smart_Assembly_project
-  #     #   steps:
-  #     #     - checkout: none
-  #     #     - task: CmdLine@2
-  #     #       inputs:
-  #     #         script: $(Smart_Assembly_Path_dir) SalesCloser360.saproj
-  #     #         workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
-  #     - job: Build_Smart_Assembly_project
-  #       steps:
-  #         - checkout: none
-  #         - task: CmdLine@2
-  #           inputs:
-  #             script: '$(Smart_Assembly_Path_dir) SalesCloser360.saproj' #'"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com" SalesCloser360.saproj'    #single quote
-  #             workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
+  - stage: Run_Smart_Assembly
+    dependsOn: Compile_SC360
+    jobs:
+      # - job: Build_Smart_Assembly_project
+      #   steps:
+      #     - checkout: none
+      #     - bash: cmd.exe /k $(Smart_Assembly_Path_dir) SalesCloser360.saproj
+      #       workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
+      # - job: Build_Smart_Assembly_project
+      #   steps:
+      #     - checkout: none
+      #     - task: CmdLine@2
+      #       inputs:
+      #         script: $(Smart_Assembly_Path_dir) SalesCloser360.saproj
+      #         workingDirectory: $(REPO_ROOT_VAR)/Build/SmartAssembly
+      - job: Build_Smart_Assembly_project
+        steps:
+          - checkout: none
+          - task: CmdLine@2
+            inputs:
+              script: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com" SalesCloser360.saproj'
+              workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
