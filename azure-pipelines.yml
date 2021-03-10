@@ -107,5 +107,5 @@ stages:
           - checkout: none
           - task: PowerShell@2
             inputs:
-              filePath: $(Scripts_Path)\generate_msbuild_warning_table
+              filePath: $(Scripts_Path)\generate_msbuild_warning_table.ps1
               arguments: $(Build.SourcesDirectory)
