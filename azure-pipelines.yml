@@ -40,12 +40,11 @@ stages:
         steps:
           - task: Bash@3
             inputs:
-              targetType: inline
+              targetType: 'inline'
               # filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
-              script: echo $EXENAMEPREFIX;
+              script: echo $EXENAMEPREFIX
             env:
               EXENAMEPREFIX: $(exenameprefix)
-              SMART_ASSEMBLY_PATH_DIR: $(smart_assembly_path_dir)
 
 # stages:
 #   - stage: SC_Checkout
