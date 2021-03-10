@@ -1,8 +1,7 @@
-#rm -rf Source;
-echo 'Hello 4';
-echo $EXENAMEPREFIX
-echo $PATH
-echo $ONEDRIVE
-echo $TEMP
-echo $COMSPEC
-#git clone "/mnt/c/Users/abhishek.chaudhary/Documents/All Repos/salescloser360" "./Source/Sales_Closer_360";
+if [ "$BUILD.SOURCEBRANCH"  == "refs/heads/master" ]
+then
+    echo "master branch"
+fi
+echo $BUILD.SOURCEBRANCH
+rm -rf Source;
+git clone "/mnt/c/Users/abhishek.chaudhary/Documents/All Repos/salescloser360" "./Source/Sales_Closer_360";
