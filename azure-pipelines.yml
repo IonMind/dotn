@@ -41,6 +41,9 @@ stages:
           - task: Bash@3
             inputs:
               filePath: $(Build.SourcesDirectory)\scripts\clone_repo.sh #cloned dir = ./sc
+            env:
+              EXENAMEPREFIX: $(exenameprefix)
+              SMART_ASSEMBLY_PATH_DIR: $(smart_assembly_path_dir)
 
 # stages:
 #   - stage: SC_Checkout
