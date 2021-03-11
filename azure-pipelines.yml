@@ -28,12 +28,13 @@ pool:
 
 variables:
   # Set variabless
+  Build.Repository.LocalPath: adam
+  Build.SourcesDirectory: bhim
   ExeNamePrefix: Bamboo_
   MajorVersion: 1
   MinorVersion: 1
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
-  Build.SourcesDirectory: 
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
   REPO_ROOT_VAR: $(Agent.WorkFolder)\Source\Sales_Closer_360
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
