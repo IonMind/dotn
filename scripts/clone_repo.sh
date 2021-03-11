@@ -7,4 +7,4 @@ echo $BUILD_SOURCEBRANCHNAME
 echo $AGENT_WORKFOLDER
 rm -rf $AGENT_WORKFOLDER\\$BUILD_SOURCEBRANCHNAME
 mkdir $AGENT_WORKFOLDER\\$BUILD_SOURCEBRANCHNAME
-git clone "C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360" "../Source/Sales_Closer_360";
+# git clone "C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360" "../Source/Sales_Closer_360";
