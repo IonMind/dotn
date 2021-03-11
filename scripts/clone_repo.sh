@@ -3,8 +3,8 @@ then
     echo "master branch"
 fi
 echo $BUILD_SOURCEBRANCH
-echo $Build_SourceBranchName
-echo $Agent_WorkFolder
-mkdir Agent_WorkFolder/$Build_SourceBranchName
-rm -rf Source;
+echo $BUILD_SOURCEBRANCHNAME
+echo $AGENT_WORKFOLDER
+mkdir $AGENT_WORKFOLDER/$BUILD_SOURCEBRANCHNAME
+rm -rf $AGENT_WORKFOLDER/$BUILD_SOURCEBRANCHNAME;
 git clone "C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360" "../Source/Sales_Closer_360";
