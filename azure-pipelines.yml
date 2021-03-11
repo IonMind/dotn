@@ -7,11 +7,14 @@ trigger:
 - master
 - Dev
 
+
+
 pool:
   name: Default
   demands: 
     - MSBuild
     - Nuget
+  workingDirectory: $(Build.SourcesDirectory)\$(Build.SourceBranchName)
 
 # resources:
 #   repositories:
@@ -28,6 +31,7 @@ variables:
   MinorVersion: 1
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
+  Build.SourcesDirectory: 
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
   REPO_ROOT_VAR: $(Build.SourcesDirectory)\Source\Sales_Closer_360
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
