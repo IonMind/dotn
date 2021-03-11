@@ -6,6 +6,8 @@
 trigger:
 - master
 - Dev
+- feature/*
+
 
 
 
