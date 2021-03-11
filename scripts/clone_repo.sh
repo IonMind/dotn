@@ -4,4 +4,4 @@ then
 fi
 echo $BUILD.SOURCEBRANCH
 rm -rf Source;
-git clone "C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360" "./Source/Sales_Closer_360";
+git clone "C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360" "../Source/Sales_Closer_360";
