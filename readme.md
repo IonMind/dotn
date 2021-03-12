@@ -1,1 +1,1 @@
-yuo
+yuo dev
