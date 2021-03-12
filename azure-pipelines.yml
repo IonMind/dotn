@@ -46,61 +46,62 @@ variables:
 #       endpoint: C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360
 
 
-         #sc from remote
-  jobs:
-    - job: Clone_form_Local    #sc360 from parent local to local. temp
-      steps:
-        - checkout: self
-          # clean: false 
-          path: $(Build.SourceBranch)
-        - task: CmdLine@2
-          inputs:
-            script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
-    - job: Restore_Packages_and_Build
-      dependsOn: Clone_form_Local
-      steps:
-        - checkout: none
-        - task: MSBuild@1
-          inputs:
-            solution: $(Source_code_path)/*.sln
-            msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
-    - job: Update_Version        #verpactch.exe
-      dependsOn: Restore_Packages_and_Build
-      steps:
-        - checkout: none
-        - task: CmdLine@2
-          inputs:
-            workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-            script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
-    - job: Build_Smart_Assembly_project
-      dependsOn: Update_Version
-      steps:
-        - checkout: none
-        - task: CmdLine@2
-          inputs:
-            script: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com" SalesCloser360.saproj'
-            workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
-    - job: Copy_Config_file          #after S.A. copy config.exe
-      dependsOn: Build_Smart_Assembly_project
-      steps:
-        - checkout: none
-        - task: CmdLine@2
-          inputs:
-            workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-            script: copy "SalesCloser360.exe.config" "Sales Closer 360.exe.config"
-    - job: Run_Signtool_and_sign_SC_executable
-      dependsOn: Copy_Config_file
-      steps:
-        - checkout: none
-        - task: PowerShell@2
-          inputs:
-            filePath: $(Scripts_Path)\sign.ps1
-            arguments: $(SCLIB_PATH) $(REPO_ROOT_VAR)
-    - job: Generate_MsBuild_warning_Table
-      dependsOn: Copy_Config_file
-      steps:
-        - checkout: none
-        - task: PowerShell@2
-          inputs:
-            filePath: $(Scripts_Path)\generate_msbuild_warning_table.ps1
-            arguments: $(Build.SourcesDirectory)
+stages: 
+  - stage: Sales_closer_360_Build        #sc from remote
+    jobs:
+      - job: Clone_form_Local    #sc360 from parent local to local. temp
+        steps:
+          - checkout: self
+            # clean: false 
+            path: $(Build.SourceBranch)
+          - task: CmdLine@2
+            inputs:
+              script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
+      - job: Restore_Packages_and_Build
+        dependsOn: Clone_form_Local
+        steps:
+          - checkout: none
+          - task: MSBuild@1
+            inputs:
+              solution: $(Source_code_path)/*.sln
+              msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
+      - job: Update_Version        #verpactch.exe
+        dependsOn: Restore_Packages_and_Build
+        steps:
+          - checkout: none
+          - task: CmdLine@2
+            inputs:
+              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+              script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
+      - job: Build_Smart_Assembly_project
+        dependsOn: Update_Version
+        steps:
+          - checkout: none
+          - task: CmdLine@2
+            inputs:
+              script: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com" SalesCloser360.saproj'
+              workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
+      - job: Copy_Config_file          #after S.A. copy config.exe
+        dependsOn: Build_Smart_Assembly_project
+        steps:
+          - checkout: none
+          - task: CmdLine@2
+            inputs:
+              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+              script: copy "SalesCloser360.exe.config" "Sales Closer 360.exe.config"
+      - job: Run_Signtool_and_sign_SC_executable
+        dependsOn: Copy_Config_file
+        steps:
+          - checkout: none
+          - task: PowerShell@2
+            inputs:
+              filePath: $(Scripts_Path)\sign.ps1
+              arguments: $(SCLIB_PATH) $(REPO_ROOT_VAR)
+      - job: Generate_MsBuild_warning_Table
+        dependsOn: Copy_Config_file
+        steps:
+          - checkout: none
+          - task: PowerShell@2
+            inputs:
+              filePath: $(Scripts_Path)\generate_msbuild_warning_table.ps1
+              arguments: $(Build.SourcesDirectory)
