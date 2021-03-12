@@ -26,7 +26,7 @@ variables:
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
-  REPO_ROOT_VAR: $(Build.Repository.LocalPath)\Source\Sales_Closer_360
+  REPO_ROOT_VAR: $(Build.BuildId)\Source\Sales_Closer_360
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
   Scripts_Path: $(Build.SourcesDirectory)\scripts
   Product_version: 1.0.0.390
@@ -59,63 +59,63 @@ stages:
             inputs:
               script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
 
-  - stage: Compile_SC360         #Complie and build msnuild and nuget
-    dependsOn: SC_Checkout
-    jobs:
-      - job: Restore_Packages_and_Build
-        steps:
-          - checkout: none
-          - task: MSBuild@1
-            inputs:
-              solution: $(Source_code_path)/*.sln
-              msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
+  # - stage: Compile_SC360         #Complie and build msnuild and nuget
+  #   dependsOn: SC_Checkout
+  #   jobs:
+  #     - job: Restore_Packages_and_Build
+  #       steps:
+  #         - checkout: none
+  #         - task: MSBuild@1
+  #           inputs:
+  #             solution: $(Source_code_path)/*.sln
+  #             msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
   
-      - job: Update_Version        #verpactch.exe
-        dependsOn: Restore_Packages_and_Build
-        steps:
-          - checkout: none
-          - task: CmdLine@2
-            inputs:
-              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-              script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
+  #     - job: Update_Version        #verpactch.exe
+  #       dependsOn: Restore_Packages_and_Build
+  #       steps:
+  #         - checkout: none
+  #         - task: CmdLine@2
+  #           inputs:
+  #             workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+  #             script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
 
-  - stage: Run_Smart_Assembly       #SmartAssmbly from cmd
-    dependsOn: Compile_SC360
-    jobs:
-      - job: Build_Smart_Assembly_project
-        steps:
-          - checkout: none
-          - task: CmdLine@2
-            inputs:
-              script: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com" SalesCloser360.saproj'
-              workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
-      - job: Copy_Config_file          #after S.A. copy config.exe
-        dependsOn: Build_Smart_Assembly_project
-        steps:
-          - checkout: none
-          - task: CmdLine@2
-            inputs:
-              workingDirectory: $(Source_code_path)/MainWindow/bin/Release
-              script: copy "SalesCloser360.exe.config" "Sales Closer 360.exe.config"
+  # - stage: Run_Smart_Assembly       #SmartAssmbly from cmd
+  #   dependsOn: Compile_SC360
+  #   jobs:
+  #     - job: Build_Smart_Assembly_project
+  #       steps:
+  #         - checkout: none
+  #         - task: CmdLine@2
+  #           inputs:
+  #             script: '"C:\Program Files\Red Gate\SmartAssembly 7\SmartAssembly.com" SalesCloser360.saproj'
+  #             workingDirectory: $(REPO_ROOT_VAR)\Build\SmartAssembly
+  #     - job: Copy_Config_file          #after S.A. copy config.exe
+  #       dependsOn: Build_Smart_Assembly_project
+  #       steps:
+  #         - checkout: none
+  #         - task: CmdLine@2
+  #           inputs:
+  #             workingDirectory: $(Source_code_path)/MainWindow/bin/Release
+  #             script: copy "SalesCloser360.exe.config" "Sales Closer 360.exe.config"
   
-  - stage: Sign_EXE                   #sign tool
-    dependsOn: Run_Smart_Assembly
-    jobs:
-      - job: Run_Signtool_and_sign_SC_executable
-        steps:
-          - checkout: none
-          - task: PowerShell@2
-            inputs:
-              filePath: $(Scripts_Path)\sign.ps1
-              arguments: $(SCLIB_PATH) $(REPO_ROOT_VAR)
+  # - stage: Sign_EXE                   #sign tool
+  #   dependsOn: Run_Smart_Assembly
+  #   jobs:
+  #     - job: Run_Signtool_and_sign_SC_executable
+  #       steps:
+  #         - checkout: none
+  #         - task: PowerShell@2
+  #           inputs:
+  #             filePath: $(Scripts_Path)\sign.ps1
+  #             arguments: $(SCLIB_PATH) $(REPO_ROOT_VAR)
 
-  - stage: Build_Installer      #current license na on r3
-    dependsOn: Sign_EXE
-    jobs:
-      - job: Generate_MsBuild_warning_Table
-        steps:
-          - checkout: none
-          - task: PowerShell@2
-            inputs:
-              filePath: $(Scripts_Path)\generate_msbuild_warning_table.ps1
-              arguments: $(Build.SourcesDirectory)
+  # - stage: Build_Installer      #current license na on r3
+  #   dependsOn: Sign_EXE
+  #   jobs:
+  #     - job: Generate_MsBuild_warning_Table
+  #       steps:
+  #         - checkout: none
+  #         - task: PowerShell@2
+  #           inputs:
+  #             filePath: $(Scripts_Path)\generate_msbuild_warning_table.ps1
+  #             arguments: $(Build.SourcesDirectory)
