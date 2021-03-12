@@ -53,7 +53,7 @@ stages:
       - job: Clone_form_Local    #sc360 from parent local to local. temp
         steps:
           - checkout: self
-            path: $(Build.SourceBranchName)
+            path: $(Build.SourceBranch)
           - task: CmdLine@2
             inputs:
               script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
