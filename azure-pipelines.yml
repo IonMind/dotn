@@ -17,7 +17,7 @@ pool:
     - MSBuild
     - Nuget
 
-    #-------------------------------Variables Defination--------------------------------
+    #-------------------------------Variables Defination---------------------------------
 variables:
   # Set variabless
   ExeNamePrefix: Bamboo_
@@ -46,25 +46,30 @@ variables:
 #       endpoint: C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360
 
 
-stages: 
-  - stage: Sales_closer_360_Build        #sc from remote
+
+stages:
+  - stage: SC_Checkout           #sc from remote
     jobs:
       - job: Clone_form_Local    #sc360 from parent local to local. temp
         steps:
           - checkout: self
-            # clean: false 
+            clean: false 
             path: $(Build.SourceBranch)
           - task: CmdLine@2
             inputs:
               script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
+
+  - stage: Compile_SC360         #Complie and build msnuild and nuget
+    dependsOn: SC_Checkout
+    jobs:
       - job: Restore_Packages_and_Build
-        dependsOn: Clone_form_Local
         steps:
           - checkout: none
           - task: MSBuild@1
             inputs:
               solution: $(Source_code_path)/*.sln
               msbuildArguments: -p:Configuration="Release" -p:Platform=x64 -t:Rebuild -r
+  
       - job: Update_Version        #verpactch.exe
         dependsOn: Restore_Packages_and_Build
         steps:
@@ -73,8 +78,11 @@ stages:
             inputs:
               workingDirectory: $(Source_code_path)/MainWindow/bin/Release
               script: verpatch.exe SalesCloser360.exe $(Product_version) /pv $(Product_version)
+
+  - stage: Run_Smart_Assembly       #SmartAssmbly from cmd
+    dependsOn: Compile_SC360
+    jobs:
       - job: Build_Smart_Assembly_project
-        dependsOn: Update_Version
         steps:
           - checkout: none
           - task: CmdLine@2
@@ -89,16 +97,22 @@ stages:
             inputs:
               workingDirectory: $(Source_code_path)/MainWindow/bin/Release
               script: copy "SalesCloser360.exe.config" "Sales Closer 360.exe.config"
+  
+  - stage: Sign_EXE                   #sign tool
+    dependsOn: Run_Smart_Assembly
+    jobs:
       - job: Run_Signtool_and_sign_SC_executable
-        dependsOn: Copy_Config_file
         steps:
           - checkout: none
           - task: PowerShell@2
             inputs:
               filePath: $(Scripts_Path)\sign.ps1
               arguments: $(SCLIB_PATH) $(REPO_ROOT_VAR)
+
+  - stage: Build_Installer      #current license na on r3
+    dependsOn: Sign_EXE
+    jobs:
       - job: Generate_MsBuild_warning_Table
-        dependsOn: Copy_Config_file
         steps:
           - checkout: none
           - task: PowerShell@2
