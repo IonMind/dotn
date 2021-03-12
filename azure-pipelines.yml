@@ -52,6 +52,8 @@ stages:
   - stage: SC_Checkout           #sc from remote
     jobs:
       - job: Clone_form_Local    #sc360 from parent local to local. temp
+        workspace:
+          clean: all
         steps:
           - checkout: self
             clean: false 
