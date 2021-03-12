@@ -38,12 +38,12 @@ variables:
   SalesCloserCSWarningConfig: ' -fl -flp:logfile=$(SalesCloserCSLog);verbosity=quiet'
   REPOVERSION: 03d94d37940249d7f5f4b44ed21a69996a5ece4d
    #-------------------------------Repo(s) Defination------------------------------
-# resources:
-#   repositories:
-#     - repository: sc360
-#       type: git
-#       ref: refs/heads/master
-#       endpoint: C:\Users\abhishek.chaudhary\Documents\All Repos\salescloser360
+resources:
+  repositories:
+    - repository: sc360
+      type: github
+      ref: refs/heads/master
+      endpoint: IonMind
 
 
 
@@ -53,6 +53,7 @@ stages:
       - job: Clone_form_Local    #sc360 from parent local to local. temp
         steps:
           - checkout: self
+            clean: false
             path: $(Build.SourceBranch)
           - task: CmdLine@2
             inputs:
