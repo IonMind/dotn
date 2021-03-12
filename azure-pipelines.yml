@@ -13,9 +13,9 @@ trigger:
 
 pool:
   name: Azure Pipelines
-  demands: 
-    - MSBuild
-    - Nuget
+  # demands: 
+  #   - MSBuild
+  #   - Nuget
 
     #-------------------------------Variables Defination---------------------------------
 variables:
