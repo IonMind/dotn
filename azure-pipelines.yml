@@ -26,7 +26,7 @@ variables:
   NAS: \\10.91.1.12
   NAS_Path: 'N:'
   TargetPath: $(NAS)\Data\Builds\Sales Closer\
-  REPO_ROOT_VAR: $(BBuild.Repository.LocalPath)\Source\Sales_Closer_360
+  REPO_ROOT_VAR: $(Build.Repository.LocalPath)\Source\Sales_Closer_360
   Source_code_path: $(REPO_ROOT_VAR)\Source #contain .sln
   Scripts_Path: $(Build.SourcesDirectory)\scripts
   Product_version: 1.0.0.390
