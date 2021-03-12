@@ -12,7 +12,7 @@ trigger:
       - feature/*
 
 pool:
-  name: Default
+  name: Azure Pipelines
   demands: 
     - MSBuild
     - Nuget
