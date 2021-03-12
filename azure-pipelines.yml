@@ -53,7 +53,7 @@ stages:
     jobs:
       - job: Clone_form_Local    #sc360 from parent local to local. temp
         workspace:
-          clean: all
+          clean: false
         steps:
           - checkout: self
             clean: false 
