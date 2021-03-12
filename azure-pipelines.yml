@@ -17,7 +17,7 @@ pool:
     - MSBuild
     - Nuget
 
-    #-------------------------------Variables Defination--------------------------------
+    #-------------------------------Variables Defination---------------------------------
 variables:
   # Set variabless
   ExeNamePrefix: Bamboo_
