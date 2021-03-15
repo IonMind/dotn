@@ -57,7 +57,7 @@ stages:
         steps:
           - checkout: self
             clean: false 
-            path: $(Agent.WorkFolder)\$(Build.SourceBranchName)
+            path: $(Pipeline.Workspace)\$(Build.SourceBranchName)
           # - task: CmdLine@2
           #   inputs:
           #     script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
