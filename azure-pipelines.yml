@@ -58,6 +58,7 @@ stages:
           - checkout: self
             clean: false 
             path: $(Build.SourceBranchName)
+          - script: '$(Build.SourceBranchName) $(Build.SourceBranchName)_$(Build.BuildId)'
           
           # - task: CmdLine@2
           #   inputs:
