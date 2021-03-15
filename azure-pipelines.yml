@@ -12,16 +12,15 @@ trigger:
       - feature/*
 
 pool:
-  # name: Azure Pipelines
-  vmImage: vs2017-win2016
+  name: Default
+  # vmImage: vs2017-win2016
   # demands: 
   #   - MSBuild
   #   - Nuget
 
-    #-------------------------------Variables Defination----------------------------------
+    #-------------------------------Variables Defination---------------------------------
 variables:
   # Set variabless
-
   ExeNamePrefix: Bamboo_
   MajorVersion: 1
   MinorVersion: 1
@@ -53,13 +52,15 @@ stages:
   - stage: SC_Checkout           #sc from remote
     jobs:
       - job: Clone_form_Local    #sc360 from parent local to local. temp
+        workspace:
+          clean: false
         steps:
           - checkout: self
             clean: false 
-            path: $(Build.BuildId)
-          - task: CmdLine@2
-            inputs:
-              script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
+            path: $(Agent.WorkFolder)\$(Build.SourceBranchName)
+          # - task: CmdLine@2
+          #   inputs:
+          #     script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
 
   # - stage: Compile_SC360         #Complie and build msnuild and nuget
   #   dependsOn: SC_Checkout
