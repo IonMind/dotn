@@ -58,7 +58,7 @@ stages:
           - checkout: self
             clean: false 
             path: $(Build.SourceBranchName)
-          - script: 'COPY $(Build.SourceBranchName) $(Build.SourceBranchName)_$(Build.BuildId)'
+          - script: 'XCOPY /E /I $(Build.SourceBranchName) $(Build.SourceBranchName)_$(Build.BuildId)'
             workingDirectory: $(Agent.BuildDirectory)
           # - task: CmdLine@2
           #   inputs:
