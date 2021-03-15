@@ -57,10 +57,10 @@ stages:
         steps:
           - checkout: self
             clean: false 
-            path: $(Build.BuildId)
-          - task: CmdLine@2
-            inputs:
-              script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
+            path: $(Agent.WorkFolder)\$(Build.SourceBranchName)
+          # - task: CmdLine@2
+          #   inputs:
+          #     script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
 
   # - stage: Compile_SC360         #Complie and build msnuild and nuget
   #   dependsOn: SC_Checkout
