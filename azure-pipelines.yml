@@ -59,7 +59,7 @@ stages:
             clean: false 
             path: $(Build.SourceBranchName)
           - script: 'COPY $(Build.SourceBranchName) $(Build.SourceBranchName)_$(Build.BuildId)'
-          
+          workingDirectory: $(Agent.BuildDirectory)
           # - task: CmdLine@2
           #   inputs:
           #     script: '$(Bash) $(Scripts_Path)\clone_repo.sh'
